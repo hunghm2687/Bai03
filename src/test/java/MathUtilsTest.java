@@ -9,7 +9,7 @@ public class MathUtilsTest {
     public void testDivide_NormalCase() {
         int a = 10;
         int b = 2;
-        double expected = 4.5; // cố tình để sai test gây ra lỗi ci/cd
+        double expected = 4.7; // cố tình để sai test gây ra lỗi ci/cd
         double actual = MathUtils.divide(a, b);
         assertEquals(expected, actual, 0.0001, "Phép chia 10 cho 2 phải bằng 5.0");
     }
