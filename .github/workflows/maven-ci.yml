@@ -1,0 +1,45 @@
+name: MathUtils CI Automation
+
+# 1. Kích hoạt workflow khi có sự kiện push hoặc pull_request lên main hoặc master
+# mays chủ Github sẽ tự động thức dậy và chạy kịch bản này
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # Chạy trên máy ảo Linux của GitHub
+
+    steps:
+      # 2. Lấy mã nguồn từ kho lưu trữ (repository)
+      - name: Checkout mã nguồn
+        uses: actions/checkout@v4
+
+      # 3. Cài đặt môi trường Java 11 (khớp với phiên bản trong pom.xml của bạn)
+      - name: Cài đặt JDK 11
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+          cache: maven # Tự động cache các thư viện để lần chạy sau nhanh hơn
+
+      # 4. Thực thi vòng đời Maven (Chạy test và package)
+      - name: Build dự án với Maven (Chạy Test & Package)
+        run: mvn -B clean package --file pom.xml
+        # Lệnh package của Maven sẽ tự động kích hoạt pha test trước.
+        # Nếu có bất kỳ bài Unit Test nào trong MathUtilsTest.java bị "Fail",
+        # lệnh này sẽ báo lỗi, quy trình bị hủy, và tệp .jar sẽ không được tạo ra.
+
+      # 5. Triển khai action upload-artifact để lưu giữ tệp .jar
+      - name: Lưu trữ tệp .jar (Upload Artifact)
+        # Lệnh này chỉ chạy nếu bước Build phía trên thành công (pass tất cả các test)
+        if: success()
+        uses: actions/upload-artifact@v4
+        # Nếu build thành công, GitHub sẽ lấy tệp .jar (sản phẩm cuối cùng) cất vào một chỗ an toàn.
+        # có thể tải tệp này xuống máy tính cá nhân trực tiếp từ trang web GitHub.
+        with:
+          name: mathutils-artifact
+          # Tìm và lưu lại tất cả các file có đuôi .jar trong thư mục target/
+          path: target/*.jar

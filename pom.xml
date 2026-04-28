@@ -1,0 +1,106 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.practice.maven</groupId>
+    <artifactId>maven-lab-01</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <!-- <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        xung đột, lỗi phát sinh:
+         đề bảo thêm Hibernate Core 6.2.0.Final nma cái này chỉ dùng cho phiên bản java mới từ 11 trở lên
+         mà kia là 1.8 là java 8 nên p sửa đề dùng dc
+         -->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <junit.jupiter.version>5.9.2</junit.jupiter.version>
+    </properties>
+
+    <dependencies>
+        <!-- thêm Logback Classic 1.4.11
+         cho phép in ra các tb qutrong, bỏ qua các tb bình thường, tự dộng ghi các tb đo vào 1 tệp vb-->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.11</version>
+        </dependency>
+
+        <!-- thêm Hibernate Core 6.2.0.Final
+         Khi bạn có một cái bảng trong cơ sở dữ liệu (Database) và một Class trong Java,
+          Hibernate là một công cụ giúp tự động chuyển đổi dữ liệu qua lại giữa hai bên
+          mà không cần bạn phải viết các câu lệnh SQL dài dòng thủ công-->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>6.2.0.Final</version>
+        </dependency>
+
+        <!-- <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
+        </dependency> -->
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit.jupiter.version}</version> <!-- junit-jupiter dùng bản 5.9.2 -->
+            <scope>test</scope> <!-- Thư viện này chỉ dùng trong lúc tôi chạy thử code (test) thôi, đừng mang nó vào sản phẩm thật khi giao cho khách hàng nhé -->
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version> <!-- xung đột, lỗi phát sinh, tìm và nâng cấp chúng lên phiên bản mới nhất tương ứng -->
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.12.0</version> <!-- xung đột, lỗi phát sinh, tìm và nâng cấp chúng lên phiên bản mới nhất tương ứng -->
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.2</version> <!-- xung đột, lỗi phát sinh, tìm và nâng cấp chúng lên phiên bản mới nhất tương ứng -->
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.33</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0</version>
+            </plugin>
+            <!-- Để chạy được JUnit 5 trong Maven, chúng ta bắt buộc phải có một plugin (công cụ phụ trợ)
+             tên là maven-surefire-plugin phiên bản 3.x ở dưới phần <build>.
+             Nếu không có nó, lúc bạn ấn nút "Test", dự án sẽ im re không làm gì cả -->
+
+        </plugins>
+    </build>
+</project>
